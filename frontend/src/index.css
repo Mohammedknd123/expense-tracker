@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1D2B3E;
+  --color-secondary: #0060AC;
+  --color-surface: #0d0d0d;
+  --color-surface-container: #1a1a1a;
+  --color-on-surface: #f8f9fb;
+  
+  /* Neon Colors */
+  --color-neon-green: #00ff88;
+  --color-neon-red: #ff0055;
+  --color-neon-blue: #00d4ff;
+  --color-neon-purple: #b026ff;
+  
+  --font-inter: "Inter", sans-serif;
+  
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+}
+
+:root {
+  --surface: #0d0d0d;
+  --surface-container: #1a1a1a;
+  --on-surface: #f8f9fb;
+  --card-bg: #1a1a1a;
+  --input-bg: #1a1a1a;
+  --input-text: #ffffff;
+  --input-placeholder: #64748b;
+  --nav-bg: #0d0d0d;
+  --neon-glow-primary: rgba(0, 212, 255, 0.4);
+  --neon-glow-success: rgba(0, 255, 136, 0.4);
+  --neon-glow-warning: rgba(255, 0, 85, 0.4);
+  --neon-glow-purple: rgba(176, 38, 255, 0.4);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-inter);
+    background-color: var(--surface);
+    color: var(--on-surface);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased min-h-screen;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-[1200px] mx-auto px-6 md:px-8;
+  }
+  
+  .neon-glow-blue { box-shadow: 0 0 15px var(--neon-glow-primary); }
+  .neon-glow-green { box-shadow: 0 0 15px var(--neon-glow-success); }
+  .neon-glow-red { box-shadow: 0 0 15px var(--neon-glow-warning); }
+  .neon-glow-purple { box-shadow: 0 0 15px var(--neon-glow-purple); }
+  
+  .neon-border-glow {
+    border: 1px solid rgba(0, 212, 255, 0.15);
+  }
+
+  .neon-border-glow:hover {
+    box-shadow: 0 0 15px var(--neon-glow-primary);
+    border-color: var(--color-neon-blue);
+  }
+}
+
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
