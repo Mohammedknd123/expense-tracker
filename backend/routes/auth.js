@@ -2,14 +2,13 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 // @route   POST api/auth/register
 // @desc    Register user
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
-  console.log('📡 Received Registration Request:', { name, email });
-
   try {
     let user = await User.findOne({ email });
     if (user) {
@@ -31,8 +30,7 @@ router.post('/register', async (req, res) => {
       }
     );
   } catch (err) {
-    console.error('❌ Registration Error:', err.message);
-    res.status(500).json({ message: 'Server error during registration', error: err.message });
+    res.status(500).json({ message: 'Server error during registration' });
   }
 });
 
@@ -40,7 +38,6 @@ router.post('/register', async (req, res) => {
 // @desc    Authenticate user & get token
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     let user = await User.findOne({ email });
     if (!user) {
@@ -64,20 +61,18 @@ router.post('/login', async (req, res) => {
       }
     );
   } catch (err) {
-    console.error('❌ Login Error:', err.message);
-    res.status(500).json({ message: 'Server error during login', error: err.message });
+    res.status(500).json({ message: 'Server error during login' });
   }
 });
 
 // @route   GET api/auth/me
 // @desc    Get user profile and balance
-router.get('/me', require('../middleware/auth'), async (req, res) => {
+router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
-    console.error('❌ Get User Error:', err.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
