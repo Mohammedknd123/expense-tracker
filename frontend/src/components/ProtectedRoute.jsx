@@ -13,7 +13,9 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  if (!user) {
+  const token = localStorage.getItem('token');
+
+  if (!user || !token) {
     return <Navigate to="/auth" />;
   }
 

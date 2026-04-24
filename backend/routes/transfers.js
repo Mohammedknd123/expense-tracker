@@ -27,7 +27,12 @@ router.post('/', auth, async (req, res) => {
       return res.status(404).json({ message: 'Recipient not found with this email' });
     }
 
-    if (recipient._id.toString() === sender._id.toString()) {
+    console.log('Sender ID:', sender._id.toString());
+    console.log('Sender email:', sender.email);
+    console.log('Recipient ID:', recipient._id.toString());
+    console.log('Recipient email:', recipient.email);
+
+    if (recipient.email.toLowerCase() === sender.email.toLowerCase()) {
       return res.status(400).json({ message: 'Cannot transfer money to yourself' });
     }
 
