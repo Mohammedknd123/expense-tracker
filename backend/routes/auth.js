@@ -26,10 +26,11 @@ router.post('/register', async (req, res) => {
       { expiresIn: '7d' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email, balance: user.balance } });
       }
     );
   } catch (err) {
+    console.error('❌ Registration Error:', err);
     res.status(500).json({ message: 'Server error during registration' });
   }
 });
@@ -57,10 +58,11 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email, balance: user.balance } });
       }
     );
   } catch (err) {
+    console.error('❌ Login Error:', err);
     res.status(500).json({ message: 'Server error during login' });
   }
 });
@@ -70,8 +72,12 @@ router.post('/login', async (req, res) => {
 router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     res.json(user);
   } catch (err) {
+    console.error('❌ Get User Error:', err);
     res.status(500).json({ message: 'Server Error' });
   }
 });
